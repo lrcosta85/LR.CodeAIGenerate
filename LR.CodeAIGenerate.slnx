@@ -1,0 +1,7 @@
+<Solution>
+  <Project Path="LR.CodeAIGenerate.Api/LR.CodeAIGenerate.Api.csproj" />
+  <Project Path="LR.CodeAIGenerate.Business/LR.CodeAIGenerate.Business.csproj" />
+  <Project Path="LR.CodeAIGenerate.Data/LR.CodeAIGenerate.Data.csproj" />
+  <Project Path="LR.CodeAIGenerate.Domain.Tests/LR.CodeAIGenerate.Domain.Tests.csproj" />
+  <Project Path="LR.CodeAIGenerate.Domain/LR.CodeAIGenerate.Domain.csproj" />
+</Solution>

@@ -1,0 +1,6 @@
+@LR.CodeAIGenerate.Api_HostAddress = http://localhost:5261
+
+GET {{LR.CodeAIGenerate.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
