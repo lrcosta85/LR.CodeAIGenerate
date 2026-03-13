@@ -5,8 +5,9 @@ using LR.CodeAIGenerate.Data;
 using LR.CodeAIGenerate.Data.Validators;
 using LR.CodeAIGenerate.Domain.Modelos;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -60,8 +61,24 @@ builder.Services.AddAuthorization(options =>
     });
 });
 
-// OpenAPI / Swagger com segurança JWT
+// OpenAPI / Swagger
 builder.Services.AddEndpointsApiExplorer();
+//builder.Services.AddSwaggerGen(c =>
+//{
+//    c.SwaggerDoc("v1", new OpenApiInfo { Title = "Minha API", Version = "v1" });
+
+//    // Definição do esquema de segurança
+//    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+//    {
+//        Description = "Insira o token JWT no campo abaixo. Exemplo: Bearer {seu token}",
+//        Name = "Authorization",
+//        In = ParameterLocation.Header,
+//        Type = SecuritySchemeType.Http,
+//        Scheme = "bearer",
+//        BearerFormat = "JWT"
+//    });
+
+//});
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
