@@ -26,9 +26,11 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 // FluentValidation
 builder.Services.AddScoped<IValidator<Pessoa>, PessoaValidator>();
+builder.Services.AddScoped<IValidator<LR.CodeAIGenerate.Domain.Modelos.Endereco>, LR.CodeAIGenerate.Data.Validators.EnderecoValidator>();
 
 // Repositórios
 builder.Services.AddScoped<IRepositorioPessoa, RepositorioPessoa>();
+builder.Services.AddScoped<LR.CodeAIGenerate.Business.Interfaces.IEnderecoRepository, LR.CodeAIGenerate.Data.EnderecoRepository>();
 
 // Autenticação JWT
 builder.Services
@@ -58,6 +60,11 @@ builder.Services.AddAuthorization(options =>
     {
         policy.RequireAuthenticatedUser();
         policy.RequireClaim("scope", "pessoa.add");
+    });
+    options.AddPolicy("endereco", policy =>
+    {
+        policy.RequireAuthenticatedUser();
+        policy.RequireClaim("scope", "endereco");
     });
 });
 

@@ -1,6 +1,8 @@
 using FluentValidation;
 using LR.CodeAIGenerate.Business.Interfaces;
 using LR.CodeAIGenerate.Domain.Modelos;
+using Microsoft.EntityFrameworkCore;
+using System.Linq;
 
 namespace LR.CodeAIGenerate.Data;
 
@@ -11,20 +13,34 @@ public class RepositorioPessoa : IRepositorioPessoa
 {
     private readonly Repositorio<Pessoa, Guid> _repositorio;
     private readonly IValidator<Pessoa> _validator;
+    private readonly AppDbContext _context;
 
     public RepositorioPessoa(AppDbContext context, IValidator<Pessoa> validator)
     {
         _repositorio = new Repositorio<Pessoa, Guid>(context);
         _validator = validator;
+        _context = context;
     }
 
     /// <inheritdoc />
-    public Task<Pessoa?> ObterPorIdAsync(Guid id, CancellationToken cancellationToken = default) =>
-        _repositorio.ObterPorIdAsync(id, cancellationToken);
+    public async Task<Pessoa?> ObterPorIdAsync(Guid id, CancellationToken cancellationToken = default)
+    {
+        return await _context.Pessoas
+            .Include(p => p.Endereco)
+            .AsNoTracking()
+            .FirstOrDefaultAsync(p => p.Id == id, cancellationToken)
+            .ConfigureAwait(false);
+    }
 
     /// <inheritdoc />
-    public Task<IReadOnlyList<Pessoa>> ObterTodosAsync(CancellationToken cancellationToken = default) =>
-        _repositorio.ObterTodosAsync(cancellationToken);
+    public async Task<IReadOnlyList<Pessoa>> ObterTodosAsync(CancellationToken cancellationToken = default)
+    {
+        return await _context.Pessoas
+            .Include(p => p.Endereco)
+            .AsNoTracking()
+            .ToListAsync(cancellationToken)
+            .ConfigureAwait(false);
+    }
 
     /// <inheritdoc />
     public async Task<Pessoa> IncluirAsync(Pessoa entidade, CancellationToken cancellationToken = default)

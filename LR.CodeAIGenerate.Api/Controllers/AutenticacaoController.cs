@@ -51,7 +51,8 @@ public class AutenticacaoController : ControllerBase
         {
             new(JwtRegisteredClaimNames.Sub, request.Usuario),
             new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-            new("scope", "pessoa.add")
+            new("scope", "pessoa.add"),
+            new("scope", "endereco")
         };
 
         var credentials = new SigningCredentials(signingKey, SecurityAlgorithms.HmacSha256);
@@ -65,6 +66,9 @@ public class AutenticacaoController : ControllerBase
             signingCredentials: credentials);
 
         var tokenString = new JwtSecurityTokenHandler().WriteToken(token);
+
+        // Também expõe o token no header Authorization para conveniência do cliente
+        Response.Headers["Authorization"] = $"Bearer {tokenString}";
 
         return Ok(new TokenResponse
         {

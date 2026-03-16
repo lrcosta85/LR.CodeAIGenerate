@@ -18,6 +18,12 @@ public class PessoaValidator : AbstractValidator<Pessoa>
             .Must(NomeDeveTerSobrenome)
             .WithMessage("O nome deve conter ao menos nome e sobrenome.");
 
+        RuleFor(p => p.CPF)
+            .NotEmpty()
+            .WithMessage("O CPF não pode ser nulo ou vazio.")
+            .Length(11)
+            .WithMessage("O CPF deve possuir exatamente 11 caracteres.");
+
         RuleFor(p => p.DataNascimento)
             .LessThanOrEqualTo(DateTime.Today)
             .WithMessage("A data de nascimento não pode ser maior que a data de hoje.");
